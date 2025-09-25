@@ -1,0 +1,28 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { min-height: 100vh; background: linear-gradient(135deg, #e0d4f7, #f3eaff); color: #333; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border-bottom: 1px solid #dcd4e6; }
+header img { height: 50px; }
+header nav a { margin-left: 25px; text-decoration: none; color: #5c3d99; font-weight: 600; transition: 0.3s; }
+header nav a:hover { color: #9b72e3; }
+
+main { display: flex; flex-wrap: wrap; justify-content: center; padding: 40px 20px; gap: 30px; }
+.feature { background-color: rgba(255,255,255,0.85); backdrop-filter: blur(6px); border-radius: 15px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); width: 260px; padding: 20px; text-align: center; transition: transform 0.3s; }
+.feature:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
+.feature h2 { color: #5c3d99; margin-bottom: 15px; font-size: 1.3rem; }
+.dynamic-content { min-height: 50px; margin-bottom: 15px; color: #444; font-size: 1rem; }
+
+footer { text-align: center; padding: 15px 0; background-color: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border-top: 1px solid #dcd4e6; color: #5c3d99; font-weight: 500; }
+
+/* Calendar styles */
+.calendar-container { max-width: 700px; margin: 40px auto; background-color: rgba(255,255,255,0.85); backdrop-filter: blur(6px); border-radius: 15px; padding: 25px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); text-align: center; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 10px; }
+.calendar-grid div { padding: 12px 0; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+.calendar-grid div.weekday { font-weight: bold; background: #dcd4e6; }
+.calendar-grid div.day:hover { background-color: #e0d4f7; }
+.calendar-grid div.saturday { background-color: #ffe6e6; }
+.today { border: 2px solid #9b72e3; font-weight: bold; }
+.event-dot { width: 6px; height: 6px; background-color: #9b72e3; border-radius: 50%; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); }
+.event-list { margin-top: 20px; }
+.event-item { background-color: #e0d4f7; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; }
+    
