@@ -1,0 +1,116 @@
+/* Google Font (optional, if not already added) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* DARK BACKGROUND (your theme) */
+body{
+    background: #221f2f;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Soft neon glow background */
+body::before{
+    content: "";
+    position: fixed;
+    width: 160px;
+    height: 160px;
+    background-color: #ed2ff0;
+    left: 10%;
+    top: 20%;
+    filter: blur(150px);
+    z-index: -1;
+}
+
+body::after{
+    content: "";
+    position: fixed;
+    width: 160px;
+    height: 160px;
+    background-color: #22a8cd;
+    right: 10%;
+    bottom: 20%;
+    filter: blur(150px);
+    z-index: -1;
+}
+
+/* Calendar container (kept light, only slightly enhanced) */
+.calendar-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+/* Calendar grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.calendar-grid div {
+    padding: 12px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+
+/* Weekdays */
+.calendar-grid div.weekday {
+    font-weight: bold;
+    background: #dcd4e6;
+}
+
+/* Hover effect */
+.calendar-grid div.day:hover {
+    background-color: #e0d4f7;
+}
+
+/* Saturday style */
+.calendar-grid div.saturday {
+    background-color: #ffe6e6;
+}
+
+/* Today highlight */
+.today {
+    border: 2px solid #9b72e3;
+    font-weight: bold;
+}
+
+/* Event dot */
+.event-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #9b72e3;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Event list */
+.event-list {
+    margin-top: 20px;
+}
+
+/* Event item */
+.event-item {
+    background-color: #e0d4f7;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}

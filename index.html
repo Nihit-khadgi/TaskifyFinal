@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify - Task Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <button class="menu-toggle" id="menuToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="logo">T</div>
+                <span class="logo-text">Taskify</span>
+            </div>  
+
+            <nav class="main-nav" >
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#task-list" class="nav-link">Tasks</a>
+                <a href="#quick-access" class="nav-link">Quick Access</a>
+                <a href="#charts" class="nav-link">Analytics</a>
+                <a href="#about-us" class="nav-link">About us</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="searchBtn" aria-label="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+
+                <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
+                    <span class="notification-badge"></span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </button>
+
+                <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+                    </svg>
+                </button>
+<div class="profile-section">
+    <button class="profile-btn" id="profileBtn" aria-label="Profile">
+        A
+    </button>
+    <a href="logout.php" class="logout-btn">Logout</a>
+</div>
+
+            </div>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <button class="new-task-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    New Task
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="sidebar-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    Filters
+                </button>
+
+                <button class="sidebar-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Today
+                    <span class="count">5</span>
+                </button>
+
+                <button class="sidebar-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    Important
+                    <span class="count">3</span>
+                </button>
+
+                <button class="sidebar-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    Completed
+                    <span class="count">24</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-section">
+                <h3>Tags</h3>
+                <button class="tag-item">
+                    <span class="tag-dot work"></span>
+                    Work
+                </button>
+                <button class="tag-item">
+                    <span class="tag-dot personal"></span>
+                    Personal
+                </button>
+                <button class="tag-item">
+                    <span class="tag-dot urgent"></span>
+                    Urgent
+                </button>
+                <button class="tag-item">
+                    <span class="tag-dot ideas"></span>
+                    Ideas
+                </button>
+            </div>
+
+</div>
+        </div>
+
+
+
+    </aside>
+
+    <div class="main-content">
+        <!-- Dashboard Stats Cards -->
+        <div class="stats-container" id="dashboard">
+            <!-- Today's Tasks Card -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <h3>Today's Tasks</h3>
+                    <div class="stat-icon clock">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-number" id="todayCount">0</div>
+                <div class="stat-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span class="progress-value" id="todayProgress">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="todayProgressBar" style="width: 0%; background: linear-gradient(90deg, #0891b2 0%, #06b6d4 100%);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overdue Card -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <h3>Overdue</h3>
+                    <div class="stat-icon alert">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-number" id="overdueCount">0</div>
+                <div class="stat-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span class="progress-value">100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, #ef4444 0%, #f97316 100%);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Card -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <h3>Completed</h3>
+                    <div class="stat-icon check">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-number" id="completedCount">0</div>
+                <div class="stat-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span class="progress-value" id="completedProgress">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="completedProgressBar" style="width: 0%; background: linear-gradient(90deg, #10b981 0%, #22c55e 100%);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Productivity Metrics -->
+        <div class="metrics-container">
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #dbeafe; color: #2563eb;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Tasks Today</span>
+                    <span class="metric-value" id="metricToday">0</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #ddd6fe; color: #7c3aed;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10"></path>
+                        <path d="M12 20V4"></path>
+                        <path d="M6 20v-6"></path>
+                    </svg>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Weekly Progress</span>
+                    <span class="metric-value" id="metricWeekly">0%</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #d1fae5; color: #059669;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Productivity</span>
+                    <span class="metric-value" id="metricProductivity">0%</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #fed7aa; color: #ea580c;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Streak</span>
+                    <span class="metric-value" id="metricStreak">0 days</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-container" id="charts">
+            <div class="chart-card">
+                <h3>Task Completion Rate</h3>
+                <div id="completionChart"></div>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Tasks by Priority</h3>
+                <div id="priorityChart"></div>
+            </div>
+            
+            <div class="chart-card chart-card-wide">
+                <h3>Weekly Task Trend</h3>
+                <div id="weeklyChart"></div>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="quick-access-section" id="quick-access">
+            <div class="quick-access-header">
+                <h2>Quick Access</h2>
+            </div>
+            <div class="quick-access-grid">
+                <a href="ad-calendar.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        📅
+                    </div>
+                    <div class="access-card-title">AD Calendar</div>
+                    <div class="access-card-description">View Anno Domini calendar</div>
+                </a>
+
+                <a href="index-bs.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        📆
+                    </div>
+                    <div class="access-card-title">BS Calendar</div>
+                    <div class="access-card-description">Bikram Sambat calendar</div>
+                </a>
+
+                <a href="index-currency.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        💱
+                    </div>
+                    <div class="access-card-title">Currency Converter</div>
+                    <div class="access-card-description">Convert currencies instantly</div>
+                </a>
+
+                <a href="index-stock.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        📈
+                    </div>
+                    <div class="access-card-title">Stock Market</div>
+                    <div class="access-card-description">Track market prices</div>
+                </a>
+
+                <a href="index-weather.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        🌤️
+                    </div>
+                    <div class="access-card-title">Weather</div>
+                    <div class="access-card-description">Check weather forecast</div>
+                </a>
+
+                <a href="index-alarm.html" class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        ⏰
+                    </div>
+                    <div class="access-card-title">Alarm</div>
+                    <div class="access-card-description">Set reminders & alarms</div>
+                </a>
+
+                <a href="index-news.html    " class="access-card">
+                    <div class="access-card-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        📰
+                    </div>
+                    <div class="access-card-title">News</div>
+                    <div class="access-card-description">Latest news updates</div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+         <!-- Task List Section -->
+        <div class="task-section">
+            <div class="task-header">
+                <h2>Task List</h2>
+                <select class="task-filter">
+                    <option value="all">All Tasks</option>
+                    <option value="today">Today</option>
+                    <option value="important">Important</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="task-list" id="task-list">
+                <!-- Tasks will be dynamically loaded here -->
+            </div>
+        </div>
+    
+
+           <!-- Task Creation Modal -->
+           <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Task</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title *</label>
+                    <input type="text" id="taskTitle" required placeholder="Enter task title">
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDate">Due Date</label>
+                        <input type="date" id="taskDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="taskTag">Tag</label>
+                    <select id="taskTag">
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="ideas">Ideas</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelTask">Cancel</button>
+                    <button type="submit" class="btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+          <!-- About Us Section -->
+          <div class="about-section" id="about-us">
+              <div class="about-header">
+                  <br><h2>About Us</h2>
+                  <p>Meet the team behind Taskify</p>
+              </div>
+              <div class="team-grid">
+                  <!-- Team Member 1 - Nihit -->
+                  <div class="team-card">
+                      <div class="team-card-inner">
+                          <div class="team-card-front">
+                              <div class="team-photo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                  <span class="team-initial">NK</span>
+                              </div>
+                              <h3 class="team-name">Nihit Khadgi</h3>
+                              <p class="team-role">Lead Developer & UI Designer</p>
+                              <p class="team-bio">Passionate about creating intuitive user experiences and clean, efficient code.</p>
+                              <div class="flip-hint">Hover       to see more →</div>
+                          </div>
+                          <div class="team-card-back">
+                              <h3>Nihit Khadgi</h3>
+                              <div class="team-details">
+                                  <p><strong>Role:</strong> Lead Developer & UI/UX</p>
+                                  <p><strong>Responsibilities:</strong></p>
+                                  <ul>
+                                      <li>Frontend development</li>
+                                      <li>UI/UX design implementation</li>
+                                      <li>User interface optimization</li>
+                                      <li>Project architecture</li>
+                                  </ul>
+                              </div>
+                              <div class="social-links">
+                                  <a href="https://instagram.com" target="_blank" class="social-link" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" stroke-width="2"></path>
+                                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"></line>
+                                      </svg>
+                                  </a>
+                                  <a href="https://github.com" target="_blank" class="social-link" style="background: #333;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                      </svg>
+                                  </a>
+                                  <a href="mailto:nihit@example.com" class="social-link" style="background: #EA4335;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                          <polyline points="22,6 12,13 2,6"></polyline>
+                                      </svg>
+                                  </a>
+                                  <a href="https://facebook.com" target="_blank" class="social-link" style="background: #1877F2;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                      </svg>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Team Member 2 - Bhupesh -->
+                  <div class="team-card">
+                      <div class="team-card-inner">
+                          <div class="team-card-front">
+                              <div class="team-photo" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                  <span class="team-initial">BY</span>
+                              </div>
+                              <h3 class="team-name">Bhupesh Kumar Yadav</h3>
+                              <p class="team-role">Backend Developer & Database Architect</p>
+                              <p class="team-bio">Specializing in secure authentication systems and comprehensive technical documentation.</p>
+                              <div class="flip-hint">Hover to see more →</div>
+                          </div>
+                          <div class="team-card-back">
+                              <h3>Bhupesh Kumar Yadav</h3>
+                              <div class="team-details">
+                                  <p><strong>Role:</strong> Backend & Database Management</p>
+                                  <p><strong>Responsibilities:</strong></p>
+                                  <ul>
+                                      <li>Database design & management</li>
+                                      <li>User authentication systems</li>
+                                      <li>Login security implementation</li>
+                                      <li>Technical documentation</li>
+                                  </ul>
+                              </div>
+                              <div class="social-links">
+                                  <a href="https://instagram.com" target="_blank" class="social-link" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" stroke-width="2"></path>
+                                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"></line>
+                                      </svg>
+                                  </a>
+                                  <a href="https://github.com" target="_blank" class="social-link" style="background: #333;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                      </svg>
+                                  </a>
+                                  <a href="mailto:bhupesh@example.com" class="social-link" style="background: #EA4335;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                          <polyline points="22,6 12,13 2,6"></polyline>
+                                      </svg>
+                                  </a>
+                                  <a href="https://facebook.com" target="_blank" class="social-link" style="background: #1877F2;">
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                      </svg>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+         </div>
+     
+ </div>
+
+       
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD Calendar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>AD Calendar</h1>
+    <nav><a href="index.html">Back Home</a></nav>
+</header>
+
+<div class="calendar-container">
+    <div class="calendar-weekdays">
+        <div>Sun</div><div>Mon</div><div>Tue</div>
+        <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div id="ad-calendar" class="calendar-grid"></div>
+    <h3>Events:</h3>
+    <div id="event-list-ad" class="event-list"></div>
+</div>
+
+<script src="calendar.js"></script>
+<script>
+renderADCalendar('ad-calendar', 'event-list-ad');
+</script>
+</body>
+</html>
