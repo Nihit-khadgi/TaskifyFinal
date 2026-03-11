@@ -1,9 +1,17 @@
 // ============================================
-// WAIT FOR PAGE TO LOAD
+// MODERN TASKIFY - ENHANCED JAVASCRIPT
 // ============================================
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded!');
+    console.log('✨ Taskify Modern - Loaded!');
     initApp();
+    
+    // Add smooth page transitions
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.3s ease';
+        document.body.style.opacity = '1';
+    }, 100);
 });
 
 // ============================================
@@ -24,14 +32,14 @@ function loadTasks() {
     const saved = localStorage.getItem('taskify_tasks');
     if (saved) {
         tasks = JSON.parse(saved);
-        console.log('Loaded tasks:', tasks);
+        console.log('📋 Loaded tasks:', tasks.length);
     } else {
-        // Create demo tasks
+        // Create demo tasks with modern styling
         tasks = [
             {
                 id: Date.now() + 1,
-                title: "Review Q4 Marketing Strategy",
-                description: "Analyze campaign performance and plan next quarter",
+                title: "Design New Dashboard UI",
+                description: "Create wireframes and mockups for the new modern interface",
                 priority: "high",
                 date: getTodayDate(),
                 tag: "work",
@@ -40,11 +48,21 @@ function loadTasks() {
             },
             {
                 id: Date.now() + 2,
-                title: "Update Project Documentation",
-                description: "Add API endpoints and usage examples",
+                title: "Team Meeting",
+                description: "Discuss Q4 goals and project timelines",
                 priority: "medium",
                 date: getTodayDate(),
                 tag: "work",
+                completed: false,
+                starred: false
+            },
+            {
+                id: Date.now() + 3,
+                title: "Gym Session",
+                description: "Evening workout routine",
+                priority: "low",
+                date: getTodayDate(),
+                tag: "personal",
                 completed: false,
                 starred: false
             }
@@ -55,8 +73,59 @@ function loadTasks() {
 
 function saveTasks() {
     localStorage.setItem('taskify_tasks', JSON.stringify(tasks));
-    console.log('Tasks saved:', tasks);
     updateUI();
+    
+    // Show save animation
+    showNotification('Tasks updated!', 'success');
+}
+
+// ============================================
+// MODERN NOTIFICATION SYSTEM
+// ============================================
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `modern-notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-icon">${type === 'success' ? '✓' : 'ℹ'}</div>
+        <div class="notification-message">${message}</div>
+    `;
+    
+    // Style the notification
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: ${type === 'success' ? '#10b981' : '#3b82f6'};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateY(0)';
+        notification.style.opacity = '1';
+    }, 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateY(100px)';
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
 }
 
 // ============================================
@@ -68,234 +137,170 @@ function initApp() {
     setupHeader();
     setupSidebar();
     setupModal();
+    setupKeyboardShortcuts();
+    setupDragDrop();
     updateUI();
-    console.log('App initialized!');
+    console.log('🚀 App initialized!');
 }
 
 // ============================================
-// POMODORO TIMER
+// KEYBOARD SHORTCUTS
 // ============================================
-
-let pomodoroInterval = null;
-let pomodoroSeconds = 25 * 60; // 25 minutes
-let isPomodorRunning = false;
-let pomodoroCount = parseInt(localStorage.getItem('pomodoroCount')) || 0;
-
-const pomodoroModes = {
-    focus: 25 * 60,
-    short: 5 * 60,
-    long: 15 * 60
-};
-
-function updatePomodoroDisplay() {
-    const minutes = Math.floor(pomodoroSeconds / 60);
-    const seconds = pomodoroSeconds % 60;
-    const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    
-    const timerDisplay = document.getElementById('timerDisplay');
-    if (timerDisplay) timerDisplay.textContent = display;
-    
-    // Update count
-    const countDisplay = document.getElementById('pomodoroCount');
-    if (countDisplay) countDisplay.textContent = pomodoroCount;
-}
-
-function startPomodoro() {
-    if (isPomodorRunning) return;
-    
-    isPomodorRunning = true;
-    document.getElementById('startTimer').disabled = true;
-    document.getElementById('pauseTimer').disabled = false;
-    
-    pomodoroInterval = setInterval(() => {
-        pomodoroSeconds--;
-        updatePomodoroDisplay();
-        
-        if (pomodoroSeconds <= 0) {
-            stopPomodoro();
-            pomodoroCount++;
-            localStorage.setItem('pomodoroCount', pomodoroCount);
-            updatePomodoroDisplay();
-            alert('🎉 Pomodoro completed! Time for a break!');
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + N for new task
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+            e.preventDefault();
+            document.querySelector('.new-task-btn')?.click();
         }
-    }, 1000);
-}
-
-function pausePomodoro() {
-    isPomodorRunning = false;
-    clearInterval(pomodoroInterval);
-    document.getElementById('startTimer').disabled = false;
-    document.getElementById('pauseTimer').disabled = true;
-}
-
-function resetPomodoro() {
-    pausePomodoro();
-    const activeMode = document.querySelector('.mode-btn.active').dataset.mode;
-    pomodoroSeconds = pomodoroModes[activeMode];
-    updatePomodoroDisplay();
-}
-
-function stopPomodoro() {
-    pausePomodoro();
-    resetPomodoro();
-}
-
-// Pomodoro Modal
-const pomodoroCard = document.getElementById('pomodoroCard');
-const pomodoroModal = document.getElementById('pomodoroModal');
-const closePomodoroModal = document.getElementById('closePomodoroModal');
-
-if (pomodoroCard) {
-    pomodoroCard.onclick = () => {
-        pomodoroModal.classList.add('active');
-        updatePomodoroDisplay();
-    };
-}
-
-if (closePomodoroModal) {
-    closePomodoroModal.onclick = () => {
-        pomodoroModal.classList.remove('active');
-        pausePomodoro();
-    };
-}
-
-if (pomodoroModal) {
-    pomodoroModal.onclick = (e) => {
-        if (e.target === pomodoroModal) {
-            pomodoroModal.classList.remove('active');
-            pausePomodoro();
+        
+        // Escape to close modal
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('taskModal');
+            if (modal?.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
         }
-    };
+        
+        // / to focus search
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            showNotification('Press Ctrl+K to search', 'info');
+        }
+    });
 }
 
-// Timer controls
-const startTimer = document.getElementById('startTimer');
-const pauseTimer = document.getElementById('pauseTimer');
-const resetTimer = document.getElementById('resetTimer');
-
-if (startTimer) startTimer.onclick = startPomodoro;
-if (pauseTimer) pauseTimer.onclick = pausePomodoro;
-if (resetTimer) resetTimer.onclick = resetPomodoro;
-
-// Mode buttons
-document.querySelectorAll('.mode-btn').forEach(btn => {
-    btn.onclick = function() {
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        const mode = this.dataset.mode;
-        pomodoroSeconds = pomodoroModes[mode];
-        
-        const labels = {
-            focus: 'Focus Time',
-            short: 'Short Break',
-            long: 'Long Break'
-        };
-        
-        const timerLabel = document.getElementById('timerLabel');
-        if (timerLabel) timerLabel.textContent = labels[mode];
-        
-        pausePomodoro();
-        updatePomodoroDisplay();
-    };
-});
-
-// Initialize
-updatePomodoroDisplay();
-
 // ============================================
-// EXPORT TASKS
+// DRAG AND DROP FOR TASKS
 // ============================================
-
-function exportTasksAsJSON() {
-    const dataStr = JSON.stringify(tasks, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `taskify-tasks-${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-}
-
-function exportTasksAsCSV() {
-    let csv = 'Title,Description,Priority,Due Date,Tag,Status\n';
+function setupDragDrop() {
+    const taskList = document.querySelector('.task-list');
+    if (!taskList) return;
     
-    tasks.forEach(task => {
-        const row = [
-            `"${task.title}"`,
-            `"${task.description || ''}"`,
-            task.priority,
-            task.date,
-            task.tag,
-            task.completed ? 'Completed' : 'Pending'
-        ];
-        csv += row.join(',') + '\n';
+    let draggedItem = null;
+    
+    taskList.addEventListener('dragstart', (e) => {
+        const taskItem = e.target.closest('.task-item');
+        if (taskItem) {
+            draggedItem = taskItem;
+            taskItem.style.opacity = '0.5';
+        }
     });
     
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `taskify-tasks-${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-}
-
-const exportBtn = document.getElementById('exportBtn');
-if (exportBtn) {
-    exportBtn.onclick = () => {
-        const choice = confirm('Export as CSV?\n\nOK = CSV\nCancel = JSON');
-        if (choice) {
-            exportTasksAsCSV();
-        } else {
-            exportTasksAsJSON();
+    taskList.addEventListener('dragend', (e) => {
+        const taskItem = e.target.closest('.task-item');
+        if (taskItem) {
+            taskItem.style.opacity = '1';
         }
-    };
+    });
+    
+    taskList.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const taskItem = e.target.closest('.task-item');
+        if (taskItem && taskItem !== draggedItem) {
+            taskItem.style.border = '2px dashed #3b82f6';
+        }
+    });
+    
+    taskList.addEventListener('dragleave', (e) => {
+        const taskItem = e.target.closest('.task-item');
+        if (taskItem) {
+            taskItem.style.border = '';
+        }
+    });
+    
+    taskList.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const taskItem = e.target.closest('.task-item');
+        if (taskItem && taskItem !== draggedItem) {
+            taskItem.style.border = '';
+            
+            // Reorder tasks (you can implement actual reordering logic here)
+            showNotification('Task reordered!', 'success');
+        }
+    });
 }
 
 // ============================================
-// USER PROFILE
+// USER PROFILE WITH AVATAR
 // ============================================
 function setupUserProfile() {
     let userName = localStorage.getItem('userName');
     if (!userName) {
-        userName = prompt('Welcome! What is your name?') || 'User';
+        userName = prompt('Welcome to Taskify Modern! What is your name?') || 'User';
         localStorage.setItem('userName', userName);
     }
     
     const profileBtn = document.getElementById('profileBtn');
     if (profileBtn) {
         profileBtn.textContent = userName.charAt(0).toUpperCase();
+        
+        // Add gradient background based on name
+        const hue = (userName.length * 10) % 360;
+        profileBtn.style.background = `linear-gradient(135deg, hsl(${hue}, 80%, 60%), hsl(${hue + 30}, 80%, 60%))`;
+        
         profileBtn.onclick = function() {
-            const newName = prompt('Enter your new name:', userName);
+            const newName = prompt('Edit your name:', userName);
             if (newName && newName.trim()) {
                 localStorage.setItem('userName', newName.trim());
                 this.textContent = newName.charAt(0).toUpperCase();
+                showNotification('Profile updated!', 'success');
             }
         };
     }
 }
 
 // ============================================
-// HEADER BUTTONS
+// HEADER BUTTONS WITH ENHANCED INTERACTIONS
 // ============================================
 function setupHeader() {
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     if (menuToggle && sidebar) {
-        menuToggle.onclick = () => sidebar.classList.toggle('closed');
+        menuToggle.onclick = () => {
+            sidebar.classList.toggle('closed');
+            showNotification(sidebar.classList.contains('closed') ? 'Sidebar hidden' : 'Sidebar shown', 'info');
+        };
     }
     
     const searchBtn = document.getElementById('searchBtn');
     if (searchBtn) {
         searchBtn.onclick = function() {
-            const query = prompt('Search tasks:');
+            const query = prompt('🔍 Search tasks:');
             if (query) {
                 const results = tasks.filter(t => 
-                    t.title.toLowerCase().includes(query.toLowerCase())
+                    t.title.toLowerCase().includes(query.toLowerCase()) ||
+                    t.description?.toLowerCase().includes(query.toLowerCase())
                 );
-                alert(`Found ${results.length} task(s)`);
+                
+                if (results.length > 0) {
+                    showNotification(`Found ${results.length} task(s)`, 'success');
+                    
+                    // Highlight matching tasks
+                    document.querySelectorAll('.task-item').forEach(item => {
+                        item.style.transition = 'all 0.3s';
+                        item.style.boxShadow = 'none';
+                    });
+                    
+                    setTimeout(() => {
+                        results.forEach(task => {
+                            const taskEl = document.querySelector(`[data-task-id="${task.id}"]`);
+                            if (taskEl) {
+                                taskEl.style.boxShadow = '0 0 0 3px #3b82f6';
+                                taskEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        });
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        document.querySelectorAll('.task-item').forEach(item => {
+                            item.style.boxShadow = '';
+                        });
+                    }, 3000);
+                    
+                } else {
+                    showNotification('No tasks found', 'info');
+                }
             }
         };
     }
@@ -305,7 +310,12 @@ function setupHeader() {
         notifBtn.onclick = function() {
             const overdue = tasks.filter(t => !t.completed && t.date < getTodayDate()).length;
             const today = tasks.filter(t => !t.completed && t.date === getTodayDate()).length;
-            alert(`📋 ${today} tasks due today\n⚠️ ${overdue} overdue tasks`);
+            
+            // Animate button
+            this.style.transform = 'scale(1.1)';
+            setTimeout(() => this.style.transform = '', 200);
+            
+            showNotification(`📋 ${today} tasks today • ⚠️ ${overdue} overdue`, 'info');
         };
     }
     
@@ -314,27 +324,29 @@ function setupHeader() {
         // Check if dark mode was previously enabled
         if (localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
+            updateThemeIcon(themeBtn, true);
         }
         
         themeBtn.onclick = function() {
-            this.style.transform = 'rotate(180deg)';
-            setTimeout(() => this.style.transform = 'rotate(0deg)', 300);
+            // Rotate animation
+            this.style.transform = 'rotate(180deg) scale(1.1)';
+            setTimeout(() => this.style.transform = '', 300);
             
             // Toggle dark mode
             document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
             
             // Save preference
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-                console.log('Dark mode enabled');
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                console.log('Light mode enabled');
-            }
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            
+            // Update icon
+            updateThemeIcon(this, isDark);
+            
+            showNotification(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled', 'success');
         };
     }
     
-    // Navigation links
+    // Navigation links with smooth scroll
     document.querySelectorAll('.nav-link').forEach(link => {
         link.onclick = function(e) {
             e.preventDefault();
@@ -347,19 +359,35 @@ function setupHeader() {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Highlight section
+                    targetElement.style.transition = 'box-shadow 0.3s';
+                    targetElement.style.boxShadow = '0 0 0 3px #3b82f6';
+                    setTimeout(() => targetElement.style.boxShadow = '', 1000);
                 }
             }
         };
     });
 }
 
+function updateThemeIcon(btn, isDark) {
+    btn.innerHTML = isDark ? 
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>' :
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+}
+
+// ============================================
+// UPDATE METRICS
+// ============================================
 function updateMetrics() {
     const today = getTodayDate();
     
     // Tasks Today
     const todayTasks = tasks.filter(t => t.date === today && !t.completed).length;
     const metricTodayEl = document.getElementById('metricToday');
-    if (metricTodayEl) metricTodayEl.textContent = todayTasks;
+    if (metricTodayEl) {
+        animateNumber(metricTodayEl, parseInt(metricTodayEl.textContent) || 0, todayTasks);
+    }
     
     // Weekly Progress
     const weekStart = new Date();
@@ -372,9 +400,12 @@ function updateMetrics() {
     const weekProgress = weekTasks.length > 0 ? Math.round((weekCompleted / weekTasks.length) * 100) : 0;
     
     const metricWeeklyEl = document.getElementById('metricWeekly');
-    if (metricWeeklyEl) metricWeeklyEl.textContent = weekProgress + '%';
+    if (metricWeeklyEl) {
+        const current = parseInt(metricWeeklyEl.textContent) || 0;
+        animateNumber(metricWeeklyEl, current, weekProgress, '%');
+    }
     
-    // Productivity (completed tasks in last 7 days)
+    // Productivity
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     const sevenDaysStr = sevenDaysAgo.toISOString().split('T')[0];
@@ -384,12 +415,41 @@ function updateMetrics() {
     const productivity = recentTasks.length > 0 ? Math.round((recentCompleted / recentTasks.length) * 100) : 0;
     
     const metricProductivityEl = document.getElementById('metricProductivity');
-    if (metricProductivityEl) metricProductivityEl.textContent = productivity + '%';
+    if (metricProductivityEl) {
+        const current = parseInt(metricProductivityEl.textContent) || 0;
+        animateNumber(metricProductivityEl, current, productivity, '%');
+    }
     
-    // Streak (consecutive days with completed tasks)
+    // Streak
     let streak = calculateStreak();
     const metricStreakEl = document.getElementById('metricStreak');
-    if (metricStreakEl) metricStreakEl.textContent = streak + ' days';
+    if (metricStreakEl) {
+        const current = parseInt(metricStreakEl.textContent) || 0;
+        animateNumber(metricStreakEl, current, streak, ' days');
+    }
+}
+
+function animateNumber(element, start, end, suffix = '') {
+    if (start === end) {
+        element.textContent = end + suffix;
+        return;
+    }
+    
+    const duration = 500;
+    const steps = 20;
+    const stepTime = duration / steps;
+    const increment = (end - start) / steps;
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            clearInterval(timer);
+            element.textContent = end + suffix;
+        } else {
+            element.textContent = Math.round(current) + suffix;
+        }
+    }, stepTime);
 }
 
 function calculateStreak() {
@@ -405,6 +465,8 @@ function calculateStreak() {
         
         if (dayTasks.length > 0 && dayCompleted.length > 0) {
             streak++;
+        } else if (i > 0 && dayTasks.length > 0 && dayCompleted.length === 0) {
+            break;
         } else if (i > 0) {
             break;
         }
@@ -432,6 +494,7 @@ function setupSidebar() {
             else currentFilter = 'all';
             
             updateUI();
+            showNotification(`Showing ${currentFilter} tasks`, 'info');
         };
     });
     
@@ -441,6 +504,12 @@ function setupSidebar() {
             const tag = this.textContent.trim().toLowerCase();
             currentFilter = `tag-${tag}`;
             updateUI();
+            
+            // Highlight selected tag
+            tagItems.forEach(t => t.style.background = '');
+            this.style.background = 'rgba(59, 130, 246, 0.15)';
+            
+            showNotification(`Filtering by: ${tag}`, 'info');
         };
     });
 }
@@ -466,9 +535,12 @@ function setupModal() {
     
     // Open modal
     newTaskBtn.onclick = function() {
-        console.log('Opening modal...');
         modal.classList.add('active');
         document.getElementById('taskTitle').focus();
+        
+        // Animate button
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => this.style.transform = '', 200);
     };
     
     // Close modal
@@ -480,6 +552,7 @@ function setupModal() {
     
     if (closeBtn) closeBtn.onclick = closeModal;
     if (cancelBtn) cancelBtn.onclick = closeModal;
+    
     modal.onclick = (e) => {
         if (e.target === modal) closeModal();
     };
@@ -499,11 +572,10 @@ function setupModal() {
             starred: false
         };
         
-        console.log('Creating task:', newTask);
         tasks.push(newTask);
         saveTasks();
         closeModal();
-        alert('✅ Task created successfully!');
+        showNotification('✅ Task created successfully!', 'success');
     };
     
     // Filter dropdown
@@ -521,7 +593,6 @@ function setupModal() {
 // UPDATE UI
 // ============================================
 function updateUI() {
-    console.log('Updating UI...');
     updateStats();
     updateSidebarCounts();
     updateMetrics();
@@ -542,14 +613,14 @@ function updateStats() {
     const todayProgressEl = document.getElementById('todayProgress');
     const todayBarEl = document.getElementById('todayProgressBar');
     
-    if (todayCountEl) todayCountEl.textContent = todayTasks.length;
+    if (todayCountEl) animateNumber(todayCountEl, parseInt(todayCountEl.textContent) || 0, todayTasks.length);
     if (todayProgressEl) todayProgressEl.textContent = todayProgress + '%';
     if (todayBarEl) todayBarEl.style.width = todayProgress + '%';
     
     // Overdue
     const overdue = tasks.filter(t => t.date < today && !t.completed);
     const overdueEl = document.getElementById('overdueCount');
-    if (overdueEl) overdueEl.textContent = overdue.length;
+    if (overdueEl) animateNumber(overdueEl, parseInt(overdueEl.textContent) || 0, overdue.length);
     
     // Completed
     const completed = tasks.filter(t => t.completed);
@@ -559,11 +630,9 @@ function updateStats() {
     const completedProgressEl = document.getElementById('completedProgress');
     const completedBarEl = document.getElementById('completedProgressBar');
     
-    if (completedCountEl) completedCountEl.textContent = completed.length;
+    if (completedCountEl) animateNumber(completedCountEl, parseInt(completedCountEl.textContent) || 0, completed.length);
     if (completedProgressEl) completedProgressEl.textContent = completedProgress + '%';
     if (completedBarEl) completedBarEl.style.width = completedProgress + '%';
-    
-    console.log('Stats updated:', { todayTasks: todayTasks.length, overdue: overdue.length, completed: completed.length });
 }
 
 function updateSidebarCounts() {
@@ -611,13 +680,25 @@ function renderTasks() {
     taskList.innerHTML = '';
     
     if (filtered.length === 0) {
-        taskList.innerHTML = '<p style="text-align: center; color: #9ca3af; padding: 2rem;">No tasks found. Create one!</p>';
+        taskList.innerHTML = `
+            <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin: 0 auto 1rem;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 0.5rem;">No tasks found</h3>
+                <p style="font-size: 14px;">Click "New Task" to create one!</p>
+            </div>
+        `;
         return;
     }
     
     filtered.forEach(task => {
         const div = document.createElement('div');
         div.className = `task-item ${task.completed ? 'completed' : ''}`;
+        div.setAttribute('draggable', 'true');
+        div.setAttribute('data-task-id', task.id);
         
         const priorityClass = task.priority;
         const date = new Date(task.date);
@@ -651,7 +732,7 @@ function renderTasks() {
                 </div>
             </div>
             <button class="task-star">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="${task.starred ? '#f59e0b' : 'none'}" stroke="${task.starred ? '#f59e0b' : '#9ca3af'}" stroke-width="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="${task.starred ? '#f59e0b' : 'none'}" stroke="${task.starred ? '#f59e0b' : '#94a3b8'}" stroke-width="2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                 </svg>
             </button>
@@ -662,6 +743,7 @@ function renderTasks() {
         checkbox.onchange = function() {
             task.completed = this.checked;
             saveTasks();
+            showNotification(this.checked ? '✅ Task completed!' : '🔄 Task reopened', 'success');
         };
         
         // Star
@@ -669,12 +751,21 @@ function renderTasks() {
         star.onclick = function() {
             task.starred = !task.starred;
             saveTasks();
+            showNotification(task.starred ? '⭐ Added to important' : '☆ Removed from important', 'info');
+        };
+        
+        // Double click to edit
+        div.ondblclick = function() {
+            const newTitle = prompt('Edit task title:', task.title);
+            if (newTitle && newTitle.trim()) {
+                task.title = newTitle.trim();
+                saveTasks();
+                showNotification('Task updated!', 'success');
+            }
         };
         
         taskList.appendChild(div);
     });
-    
-    console.log('Rendered', filtered.length, 'tasks');
 }
 
 // ============================================
@@ -698,20 +789,31 @@ function renderCompletionChart() {
         series: [completed, incomplete],
         chart: {
             type: 'donut',
-            height: 250,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto',
+            height: 280,
+            fontFamily: 'Inter, sans-serif',
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800
+            }
         },
         labels: ['Completed', 'Incomplete'],
         colors: ['#10b981', '#f59e0b'],
         legend: {
             position: 'bottom',
             fontSize: '14px',
+            fontWeight: 600,
+            markers: {
+                width: 10,
+                height: 10,
+                radius: 6
+            }
         },
         dataLabels: {
             enabled: true,
             style: {
                 fontSize: '14px',
-                fontWeight: 600,
+                fontWeight: 700,
             }
         },
         plotOptions: {
@@ -722,20 +824,27 @@ function renderCompletionChart() {
                         show: true,
                         total: {
                             show: true,
-                            label: 'Total Tasks',
-                            fontSize: '14px',
-                            fontWeight: 600,
-                            color: '#6b7280',
+                            label: 'Total',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            color: '#64748b',
                             formatter: function (w) {
                                 return tasks.length;
                             }
                         },
                         value: {
-                            fontSize: '24px',
-                            fontWeight: 700,
-                            color: '#1f2937',
+                            fontSize: '28px',
+                            fontWeight: 800,
+                            color: '#0f172a',
                         }
                     }
+                }
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function(value) {
+                    return value + ' tasks';
                 }
             }
         }
@@ -764,10 +873,15 @@ function renderPriorityChart() {
         }],
         chart: {
             type: 'bar',
-            height: 250,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto',
+            height: 280,
+            fontFamily: 'Inter, sans-serif',
             toolbar: {
                 show: false
+            },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800
             }
         },
         plotOptions: {
@@ -786,26 +900,26 @@ function renderPriorityChart() {
             labels: {
                 style: {
                     fontSize: '14px',
-                    fontWeight: 500,
+                    fontWeight: 600,
                 }
             }
         },
         yaxis: {
             title: {
-                text: 'Number of Tasks',
+                text: 'Tasks',
                 style: {
                     fontSize: '12px',
                     fontWeight: 600,
-                    color: '#6b7280'
+                    color: '#64748b'
                 }
             }
         },
-        colors: ['#ef4444', '#f59e0b', '#0891b2'],
+        colors: ['#ef4444', '#f59e0b', '#10b981'],
         legend: {
             show: false
         },
         grid: {
-            borderColor: '#e5e7eb',
+            borderColor: '#e2e8f0',
         }
     };
     
@@ -849,23 +963,28 @@ function renderWeeklyChart() {
     const options = {
         series: [
             {
-                name: 'Tasks Created',
+                name: 'Created',
                 data: created
             },
             {
-                name: 'Tasks Completed',
+                name: 'Completed',
                 data: completed
             }
         ],
         chart: {
             type: 'area',
             height: 300,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto',
+            fontFamily: 'Inter, sans-serif',
             toolbar: {
                 show: false
             },
             zoom: {
                 enabled: false
+            },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800
             }
         },
         dataLabels: {
@@ -875,7 +994,7 @@ function renderWeeklyChart() {
             curve: 'smooth',
             width: 3
         },
-        colors: ['#0891b2', '#10b981'],
+        colors: ['#3b82f6', '#10b981'],
         fill: {
             type: 'gradient',
             gradient: {
@@ -891,23 +1010,23 @@ function renderWeeklyChart() {
                 style: {
                     fontSize: '12px',
                     fontWeight: 600,
-                    colors: '#6b7280'
+                    colors: '#64748b'
                 }
             }
         },
         yaxis: {
             title: {
-                text: 'Number of Tasks',
+                text: 'Tasks',
                 style: {
                     fontSize: '12px',
                     fontWeight: 600,
-                    color: '#6b7280'
+                    color: '#64748b'
                 }
             },
             labels: {
                 style: {
                     fontSize: '12px',
-                    colors: '#6b7280'
+                    colors: '#64748b'
                 }
             }
         },
@@ -918,7 +1037,7 @@ function renderWeeklyChart() {
             fontWeight: 600,
         },
         grid: {
-            borderColor: '#e5e7eb',
+            borderColor: '#e2e8f0',
             strokeDashArray: 4,
         },
         tooltip: {
@@ -940,3 +1059,63 @@ function renderWeeklyChart() {
         weeklyChart.render();
     }
 }
+
+// 3D Tilt Effect
+document.querySelectorAll('.stat-card, .metric-card, .access-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// Particle System
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particles = [];
+for (let i = 0; i < 50; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 3 + 1,
+    speedX: (Math.random() - 0.5) * 0.5,
+    speedY: (Math.random() - 0.5) * 0.5,
+    color: `rgba(59, 130, 246, ${Math.random() * 0.3})`
+  });
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    
+    p.x += p.speedX;
+    p.y += p.speedY;
+    
+    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
