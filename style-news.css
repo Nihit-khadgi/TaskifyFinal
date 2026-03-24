@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #221f2f;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Glow effects */
+body::before{
+    content: "";
+    position: fixed;
+    width: 180px;
+    height: 180px;
+    background-color: #ed2ff0;
+    left: 5%;
+    top: 15%;
+    filter: blur(150px);
+    z-index: -1;
+}
+
+body::after{
+    content: "";
+    position: fixed;
+    width: 180px;
+    height: 180px;
+    background-color: #22a8cd;
+    right: 5%;
+    bottom: 15%;
+    filter: blur(150px);
+    z-index: -1;
+}
+
+.container{
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.container:hover{
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* Title */
+h1{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 20px;
+}
+
+/* Filters */
+.selectionContainer,
+.searchContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label{
+    font-size: 16px;
+    margin-right: 10px;
+    color: #ccc;
+}
+
+select,
+input[type="text"]{
+    padding: 9px 10px;
+    flex: 1;
+    border: 1px solid #777;
+    border-radius: 6px;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+select:focus,
+input[type="text"]:focus{
+    border-color: #675afe;
+}
+
+/* Buttons */
+button{
+    background: #675afe;
+    color: #fff;
+    padding: 9px 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+button:hover{
+    background: #ed2ff0;
+}
+
+/* News Item */
+.newsItem{
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 20px;
+}
+
+.newsItem:last-child{
+    border-bottom: none;
+}
+
+.newsImage{
+    flex: 1;
+    max-width: 300px;
+}
+
+.newsImage img{
+    max-width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.newsContent{
+    flex: 2;
+    margin-left: 20px;
+}
+
+.newsContent .info{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #aaa;
+    margin-bottom: 12px;
+}
+
+.newsContent .info h5{
+    margin: 0;
+    font-weight: 400;
+    color: #999;
+}
+
+.newsContent h2{
+    font-size: 18px;
+    color: #fff;
+    margin-top: 0;
+    max-height: 44px;
+    overflow: hidden;
+}
+
+.newsContent p{
+    color: #bbb;
+    margin: 10px 0 20px;
+    font-size: 14px;
+    max-height: 33px;
+    overflow: hidden;
+}
+
+/* Read more button */
+.newsContent a{
+    background: #675afe;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.newsContent a:hover{
+    background: #22a8cd;
+}
