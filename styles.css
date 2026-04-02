@@ -1374,3 +1374,100 @@ body.dark-mode .team-name {
         font-size: 12px;
     }
 }
+
+/* Add to styles.css */
+.notification-panel {
+    position: absolute;
+    top: 70px;
+    right: 80px;
+    width: 380px;
+    max-height: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+body.dark-mode .notification-panel {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.notification-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.mark-read-btn {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.notification-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.notification-item.unread {
+    background: #eff6ff;
+}
+
+body.dark-mode .notification-item.unread {
+    background: #1e3a8a;
+}
+
+.notification-item:hover {
+    background: #f8fafc;
+}
+
+.notification-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.notification-message {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.notification-empty {
+    padding: 40px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.export-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 10px;
+}

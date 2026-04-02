@@ -105,7 +105,7 @@ unset($_SESSION['admin_message'], $_SESSION['admin_message_type']);
         </div>
         <nav class="admin-nav">
             <span class="welcome-text">Welcome, <?= htmlspecialchars($_SESSION['name']) ?></span>
-            <a href="user_dashboard.php" class="nav-link">My Tasks</a>
+            <a href="index.html" class="nav-link">My Tasks</a>
             <a href="logout.php" class="nav-link nav-link-danger">Logout</a>
         </nav>
     </div>
