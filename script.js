@@ -344,7 +344,19 @@ function setupModal() {
         return;
     }
     
-    if (dateInput) dateInput.value = getTodayDate();
+    // Set today's date and restrict past dates
+    if (dateInput) {
+        dateInput.value = getTodayDate();
+        dateInput.min = getTodayDate();  // 👈 Prevents selecting past dates
+        
+        // Extra protection: if user manually types a past date
+        dateInput.addEventListener('change', function() {
+            if (this.value < getTodayDate()) {
+                alert('❌ Cannot select past dates!');
+                this.value = getTodayDate();
+            }
+        });
+    }
     
     newTaskBtn.onclick = function() {
         modal.classList.add('active');
@@ -372,6 +384,12 @@ function setupModal() {
         const taskPriority = document.getElementById('taskPriority').value;
         const taskDate = document.getElementById('taskDate').value;
         const taskTag = document.getElementById('taskTag').value;
+        
+        // Check if date is past (extra validation)
+        if (taskDate < getTodayDate()) {
+            alert('❌ Cannot create task with past date!');
+            return;
+        }
         
         console.log('📝 Creating task:', taskTitle);
         
