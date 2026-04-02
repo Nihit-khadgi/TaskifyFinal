@@ -344,7 +344,19 @@ function setupModal() {
         return;
     }
     
-    if (dateInput) dateInput.value = getTodayDate();
+    // Set today's date and restrict past dates
+    if (dateInput) {
+        dateInput.value = getTodayDate();
+        dateInput.min = getTodayDate();  // 👈 Prevents selecting past dates
+        
+        // Extra protection: if user manually types a past date
+        dateInput.addEventListener('change', function() {
+            if (this.value < getTodayDate()) {
+                alert('❌ Cannot select past dates!');
+                this.value = getTodayDate();
+            }
+        });
+    }
     
     newTaskBtn.onclick = function() {
         modal.classList.add('active');
@@ -372,6 +384,12 @@ function setupModal() {
         const taskPriority = document.getElementById('taskPriority').value;
         const taskDate = document.getElementById('taskDate').value;
         const taskTag = document.getElementById('taskTag').value;
+        
+        // Check if date is past (extra validation)
+        if (taskDate < getTodayDate()) {
+            alert('❌ Cannot create task with past date!');
+            return;
+        }
         
         console.log('📝 Creating task:', taskTitle);
         
@@ -525,6 +543,10 @@ function renderTasks() {
                     <span class="task-tag">${task.tag}</span>
                 </div>
             </div>
+            <div class="task-buttons">
+                <button class="task-edit-btn" data-id="${task.id}">✏️ Edit</button>
+                <button class="task-delete-btn" data-id="${task.id}">🗑️ Delete</button>
+            </div>
             <button class="task-star">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="${task.starred ? '#f59e0b' : 'none'}" stroke="${task.starred ? '#f59e0b' : '#94a3b8'}" stroke-width="2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -546,6 +568,28 @@ function renderTasks() {
             showNotification(task.starred ? '⭐ Added to important' : '☆ Removed from important', 'info');
         };
         
+        // Edit button
+        const editBtn = div.querySelector('.task-edit-btn');
+        editBtn.onclick = function() {
+            const newTitle = prompt('Edit task title:', task.title);
+            if (newTitle && newTitle.trim()) {
+                task.title = newTitle.trim();
+                saveTasks();
+                showNotification('Task updated!', 'success');
+            }
+        };
+        
+        // Delete button
+        const deleteBtn = div.querySelector('.task-delete-btn');
+        deleteBtn.onclick = function() {
+            if (confirm('Are you sure you want to delete this task?')) {
+                tasks = tasks.filter(t => t.id !== task.id);
+                saveTasks();
+                showNotification('Task deleted!', 'success');
+            }
+        };
+        
+        // Keep double-click edit as backup
         div.ondblclick = function() {
             const newTitle = prompt('Edit task title:', task.title);
             if (newTitle && newTitle.trim()) {
