@@ -2,7 +2,7 @@
 
 :root{
   --bg: hsl(216, 24%, 96%);
-  --card: #ffffff89;
+  --card: #ffffffff;   /* more solid but still slightly transparent */
   --text: #111827;
   --muted: #6b7280;
   --border: #e5e7eb;
@@ -16,11 +16,15 @@
 
 body{
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: var(--bg);
+  background-image: url("assets/pexels.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
+  backdrop-filter: blur(8px);
 }
-
 .page{
   min-height: 100vh;
   display: grid;
@@ -43,7 +47,7 @@ body{
   position: relative;
   min-height: 620px;
 
-  background-image:   url("assets/loginimage.png");  /* your file */
+  background-image:   url("assets/pexels.jpg");  /* your file */
   background-size: cover;        /* fill the panel */
   background-position: center;   /* center the image */
   background-repeat: no-repeat;
